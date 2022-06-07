@@ -8,8 +8,6 @@ import org.springframework.stereotype.Service;
 
 import com.api.helpr.domain.Cliente;
 import com.api.helpr.domain.Pessoa;
-import com.api.helpr.domain.Cliente;
-import com.api.helpr.domain.dtos.ClienteDTO;
 import com.api.helpr.domain.dtos.ClienteDTO;
 import com.api.helpr.repositories.ClienteRepository;
 import com.api.helpr.repositories.PessoaRepository;
@@ -35,14 +33,15 @@ public class ClienteService {
 		return repository.findAll();
 	}
 
-	//Método que fará a criação de novo cliente.
-	public Cliente create(ClienteDTO objDto) {
-		objDto.setId(null);
-		validaCpfEEmail(objDto);
-		Cliente newObj = new Cliente(objDto);
+		//Método que fará a criação de novo técnico.
+		public Cliente create(ClienteDTO objDto) {
+			objDto.setId(null);
+			validaCpfEEmail(objDto);
+			Cliente newObj = new Cliente(objDto);
 		return repository.save(newObj);
 	}
 
+	
 		//Método para modificar clientes existentes.
 		public Cliente update(Integer id, ClienteDTO objDto) {
 			objDto.setId(id);
@@ -51,16 +50,17 @@ public class ClienteService {
 			oldObj = new Cliente(objDto);
 			return repository.save(oldObj);
 		}
-	
-	//Validará os CPFs e E-mails para update e create. 
-		private void validaCpfEEmail(ClienteDTO objDto) {
+		
 
-		Optional<Pessoa> obj = pessoaRepository.findByCpf(objDto.getCpf());
-		if (obj.isPresent() && obj.get().getId() != objDto.getId()) {
+		//Validará os CPFs e E-mails para update e create. 
+		private void validaCpfEEmail(ClienteDTO objDto) {
+			
+			Optional<Pessoa> obj = pessoaRepository.findByCpf(objDto.getCpf());
+			if (obj.isPresent() && obj.get().getId() != objDto.getId()) {
 			throw new DataIntegrityViolationException("CPF já cadastrado no sistema!");
 		}
-		obj = pessoaRepository.findByEmail(objDto.getEmail());
-		if (obj.isPresent() && obj.get().getId() != objDto.getId()) {
+			obj = pessoaRepository.findByEmail(objDto.getEmail());
+			if (obj.isPresent() && obj.get().getId() != objDto.getId()) {
 			throw new DataIntegrityViolationException("E-mail já cadastrado no sistema!");
 		}
 	}
