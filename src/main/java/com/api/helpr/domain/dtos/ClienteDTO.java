@@ -7,12 +7,13 @@ import java.util.stream.Collectors;
 
 import javax.validation.constraints.NotNull;
 
+import com.api.helpr.domain.Cliente;
 import com.api.helpr.domain.Pessoa;
 import com.api.helpr.domain.Tecnico;
 import com.api.helpr.domain.enums.Perfil;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-public class TecnicoDTO extends Pessoa {
+public class ClienteDTO extends Pessoa {
 
 	private static final long serialVersionUID = 1L;
 
@@ -30,12 +31,12 @@ public class TecnicoDTO extends Pessoa {
 	@JsonFormat(pattern = "dd/MM/yyyy")
 	protected LocalDate dataCriacao = LocalDate.now();
 
-	public TecnicoDTO() {
+	public ClienteDTO() {
 		super();
 		addPerfils(Perfil.CLIENTE);
 	}
 
-	public TecnicoDTO(Tecnico obj) {
+	public ClienteDTO(Cliente obj) {
 		super();
 		this.id = obj.getId();
 		this.nome = obj.getNome();
@@ -44,7 +45,7 @@ public class TecnicoDTO extends Pessoa {
 		this.senha = obj.getSenha();
 		this.perfils = obj.getPerfils().stream().map(x -> x.getCodigo()).collect(Collectors.toSet());
 		this.dataCriacao = obj.getDataCriacao();
-		
+		addPerfil(Perfil.CLIENTE);
 	}
 
 	public Integer getId() {
