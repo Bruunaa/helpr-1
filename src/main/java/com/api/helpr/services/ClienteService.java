@@ -51,6 +51,17 @@ public class ClienteService {
 			return repository.save(oldObj);
 		}
 		
+		//Excluirá um cliente pela ordem do endpoint.
+		public void delete(Integer id) {
+			Cliente obj = findById(id);
+			if(obj.getChamados().size() > 0) {
+				throw new DataIntegrityViolationException("O Cliente: "+
+			id+" tem chamados no sistema: "+
+			obj.getChamados().size());
+			}
+			repository.deleteById(id);
+		}
+		
 
 		//Validará os CPFs e E-mails para update e create. 
 		private void validaCpfEEmail(ClienteDTO objDto) {

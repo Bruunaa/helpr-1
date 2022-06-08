@@ -8,6 +8,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,6 +20,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.api.helpr.domain.Cliente;
 import com.api.helpr.domain.dtos.ClienteDTO;
+import com.api.helpr.domain.dtos.TecnicoDTO;
 import com.api.helpr.services.ClienteService;
 
 @RestController
@@ -60,5 +62,13 @@ public class ClienteResource {
 				.path("/{id}").buildAndExpand(newObj.getId()).toUri();
 		return ResponseEntity.created(uri).build();
 	}
+	
+	//Exclusão de cliente com uso do serviço
+	@DeleteMapping(value="{id}")
+	public ResponseEntity<ClienteDTO> delete(@PathVariable Integer id){
+		service.delete(id);
+		return ResponseEntity.noContent().build();
+	}
+
 }
 
