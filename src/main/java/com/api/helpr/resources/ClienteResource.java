@@ -43,6 +43,14 @@ public class ClienteResource {
 				.map(tec -> new ClienteDTO(tec)).collect(Collectors.toList());
 		return ResponseEntity.ok().body(listDto);
 	}
+
+	//Alteração de dados Clientes
+	@PutMapping(value = "/{id}")
+	public ResponseEntity<ClienteDTO> updateCliente(
+			@PathVariable Integer id, @RequestBody ClienteDTO objDto){
+		Cliente obj = service.update(id, objDto);
+		return ResponseEntity.ok().body(new ClienteDTO(obj));
+	}
 	
 	//Inserção de dados Cliente
 	@PostMapping
@@ -52,14 +60,5 @@ public class ClienteResource {
 				.path("/{id}").buildAndExpand(newObj.getId()).toUri();
 		return ResponseEntity.created(uri).build();
 	}
-	
-		
-		//Alteração de dados Técnicos
-		@PutMapping(value = "/{id}")
-		public ResponseEntity<ClienteDTO> updateCliente(
-				@PathVariable Integer id, @RequestBody ClienteDTO objDto){
-			Cliente obj = service.update(id, objDto);
-			return ResponseEntity.ok().body(new ClienteDTO(obj));
-		}
 }
 
